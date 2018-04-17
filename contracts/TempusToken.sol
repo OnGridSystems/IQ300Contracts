@@ -8,19 +8,16 @@ contract TempusToken is StandardToken {
     string public name = "Tempus";
     string public symbol = "TPS";
     uint8 public decimals = 8;
-    uint256 public cap = 10**17;
+    uint256 public cap = 100000000000000000;
     mapping(address => bool) public owners;
     mapping(address => bool) public minters;
 
     event Mint(address indexed to, uint256 amount);
-    event MintFinished();
     event OwnerAdded(address indexed newOwner);
     event OwnerRemoved(address indexed removedOwner);
     event MinterAdded(address indexed newMinter);
     event MinterRemoved(address indexed removedMinter);
     event Burn(address indexed burner, uint256 value);
-    event MintTapSet(uint256 startTime, uint256 mintSpeed);
-    event SetCap(uint256 currectTotalSupply, uint256 cap);
 
     function TempusToken() public {
         owners[msg.sender] = true;
