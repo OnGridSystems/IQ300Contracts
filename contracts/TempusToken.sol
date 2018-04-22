@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.23;
 
 
 import "./token/StandardToken.sol";
@@ -19,7 +19,7 @@ contract TempusToken is StandardToken {
     event MinterRemoved(address indexed removedMinter);
     event Burn(address indexed burner, uint256 value);
 
-    function TempusToken() public {
+    constructor() public {
         owners[msg.sender] = true;
     }
 
