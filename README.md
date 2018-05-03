@@ -15,12 +15,12 @@ TPS is [ERC-20](https://github.com/ethereum/EIPs/issues/20) standard token with 
 - Burnable: **Yes**, owner can burn his tokens 
 - RBAC: **Yes**, Minters (can mint), Owners (can add minters)
 - Source Code: **[IQ300Token.sol](contracts/IQ300Token.sol)**
-- Mainnet address: **[0x0](https://etherscan.io/address/0x0)**
+- Mainnet address: **[0x900B2a673b71E77DB2c9AE91A5934d0475b26F11](https://etherscan.io/address/0x900b2a673b71e77db2c9ae91a5934d0475b26f11)**
 
 ## Crowdsale contract
 
 - Source code: **[IQ300Crowdsale.sol](contracts/IQ300Crowdsale.sol)**
-- Mainnet address: **[0x0](https://etherscan.io/address/0x0)**
+- Mainnet address: **[0x72C07C362381add16De08a9359110aC2595221E2](https://etherscan.io/address/0x72c07c362381add16de08a9359110ac2595221e2)**
 - Minimal allowed investment: **0.1 ETH**
 - Cap: **1,000,000,000**.00000000 TPS (1 billion tokens)
 - Rounds: 5 (4 phases are time-limited and capped, last phase is not time-limited but have global crowdsale capped)
@@ -34,13 +34,13 @@ The crowdsale comprises 5 rounds with different prices ETH/TPS starting from 0,0
 
 ### Crowdsale phases
 
-| Round |       Start date       | End date (UTC)      |     Phase cap, TPS    | Price ETH per TPS |
-| ----- | ---------------------- | ------------------- | --------------------- | ----------------- |
-| 0     | contract creation time |     Start + 30days  |  20% of 1B = 200M TPS |             0.005 |
-| 1     |  just after Phase0 end |     Start + 30days  |     20% of unsold TPS |             0.01  |
-| 2     |  just after Phase1 end |     Start + 30days  |     20% of unsold TPS |             0.02  |
-| 3     |  just after Phase2 end |     Start + 30days  |     20% of unsold TPS |             0.04  |
-| 4     |  just after Phase3 end |   not time-limited  |  global cap in effect |             0.08  |
+| Round |       Start date       |     End date (UTC)      |     Phase cap, TPS    | Price ETH per TPS |
+| ----- | ---------------------- | ----------------------- | --------------------- | ----------------- |
+| 0     | contract creation time |      creation + 30days  |  20% of 1B = 200M TPS |             0.005 |
+| 1     |  just after Round0 end |  round1 start + 30days  |     20% of unsold TPS |             0.01  |
+| 2     |  just after Round1 end |  round2 start + 30days  |     20% of unsold TPS |             0.02  |
+| 3     |  just after Round2 end |  round3 start + 30days  |     20% of unsold TPS |             0.04  |
+| 4     |  just after Round3 end |       not time-limited  |  global cap in effect |             0.08  |
 
 There is no option to change phases parameters after contract deployed. The contract can be stopped (deactivated temporarily or permanently) by revocation of its minting privileges on the token.
 
@@ -64,18 +64,16 @@ git clone --recurse-submodules git@github.com:OnGridSystems/IQ300Contracts.git
 ```
 
 ### Run tests
-- Install [truffle framework](http://truffleframework.com) on your host. It will install solc-js compiler automatically.
-- Run ```truffle develop``` in one console, its command prompt > will appear. Leave it open.
-- Start the new console and type ```truffle deploy --reset```.
-- After migration run ```truffle test --reset``` and see the progress.
+- Run ```npm install```.
+- Run ```./scripts/test.sh```.
 
 ### Deploy on the net
 
 - Flatten your solidity code
-The simplest way to move your code to the IDE and other tools is to make it flat (opposed to hierarchically organized files)
+The simplest way to transfer your code to the IDE and other tools is to make it flat (opposed to hierarchically organized tree)
 Install truffle-flattener via npm
 ```npm install -g truffle-flattener```
-and flatten your crowdsale contract to a single code snippet, copy it
+flatten your contract to a single code snippet, copy it
 ```truffle-flattener contracts/IQ300Crowdsale.sol```
 You can use [Remix IDE](http://remix.ethereum.org) for deployment on the net. 
 
@@ -87,16 +85,12 @@ deploy(Token)
 - Deploy **Crowdsale** contract, using the **Token** address as argument
 
 ```
-deploy(Crowdsale, Token.address, Oracle.address)
+deploy(Crowdsale, Token.address)
 ```
-- By default Crowdsale contract has a single wallet receiving collected ethers - the address who deployed the contract.
-You can add/delete receiving wallets manually.
+- Add receiving wallets manually.
 ```
-Crowdsale.getWalletsCount()
-Crowdsale.wallets(0)
-Crowdsale.addWallet(walletAddress)
-Crowdsale.wallets(1)
-Crowdsale.delWallet(0)
+Crowdsale.addWallet(walletAddress1)
+Crowdsale.addWallet(walletAddress2)
 ```
 - Add Crowdsale contract to the minters list of the token
 ```
